@@ -89,8 +89,13 @@ def test_data_type_enum_matches_core_schema() -> None:
 def test_field_and_metric_datatypes_survive_serialization() -> None:
     document = OssieDocument.model_validate(_document())
 
-    field = document.semantic_model[0].datasets[0].fields[0]
-    metric = document.semantic_model[0].metrics[0]
+    fields = document.semantic_model[0].datasets[0].fields
+    metrics = document.semantic_model[0].metrics
+    assert fields is not None
+    assert metrics is not None
+
+    field = fields[0]
+    metric = metrics[0]
     assert field.datatype is OssieDataType.DATE_TIME_TZ
     assert metric.datatype is OssieDataType.DECIMAL
 
